@@ -13,6 +13,6 @@ def home():
 
 @app.get("/gerar")
 def gerar(pergunta: str):
-    model = genai.GenerativeModel('gemini-pro')
+    model = genai.GenerativeModel('gemini-1.5-flash')
     response = model.generate_content(pergunta)
     return {"resposta": response.text}
