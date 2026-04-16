@@ -5,7 +5,7 @@ import google.generativeai as genai
 app = FastAPI()
 
 # A chave está protegida por uma única aspa de cada lado e em uma linha só
-api_key = "AIzaSyBBiYcME8FJ9ROzJJ-1f-1DH8r23yRMp08"
+api_key = AIzaSyBBiYcME8FJ9ROzJJ-1f-1DH8r23yRMp08"
 
 genai.configure(api_key=api_key)
 model = genai.GenerativeModel('gemini-1.5-flash')
