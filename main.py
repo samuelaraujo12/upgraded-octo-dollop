@@ -4,8 +4,8 @@ import google.generativeai as genai
 
 app = FastAPI()
 
-# Puxa a chave GOOGLE_API_KEY que configuramos na Render
-api_key = os.getenv("GOOGLE_API_KEY")
+api_key = "SUA_CHAVE_AQUI_DENTRO_DAS_ASPAS"# Puxa a chave GOOGLE_API_KEY que configuramos na Render
+
 genai.configure(api_key=api_key)
 
 # Modelo configurado corretamente
