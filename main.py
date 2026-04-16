@@ -5,7 +5,7 @@ import google.generativeai as genai
 app = FastAPI()
 
 # ATENÇÃO: Coloque sua chave real dentro das aspas abaixo!
-api_key = ''AIzaSyBBiYcME8FJ9ROzJJ-1f-1DH8r23yRMp08''
+api_key = 'AIzaSyBBiYcME8FJ9ROzJJ-1f-1DH8r23yRMp08'
 "
 
 genai.configure(api_key=api_key)
