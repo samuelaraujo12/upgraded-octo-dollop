@@ -4,11 +4,11 @@ import google.generativeai as genai
 
 app = FastAPI()
 
-api_key = "SUA_CHAVE_AQUI_DENTRO_DAS_ASPAS"# Puxa a chave GOOGLE_API_KEY que configuramos na Render
+# COLE SUA CHAVE ENTRE AS ASPAS ABAIXO (A que começa com AIza...)
+api_key = "COLE_SUA_CHAVE_AQUI" 
 
 genai.configure(api_key=api_key)
 
-# Modelo configurado corretamente
 model = genai.GenerativeModel('gemini-1.5-flash')
 
 @app.get("/")
