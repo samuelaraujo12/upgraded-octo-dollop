@@ -3,8 +3,9 @@ from fastapi import FastAPI
 import google.generativeai as genai
 
 app = FastAPI()
+AIzaSyBBiYcME8FJ9ROzJJ-1f-1DH8r23yRMp08'
 
-# COLE SUA CHAVE ENTRE AS ASPAS ABAIXO (A que começa com AIza...)
+api_key-'
 api_key = "COLE_SUA_CHAVE_AQUI" 
 
 genai.configure(api_key=api_key)
