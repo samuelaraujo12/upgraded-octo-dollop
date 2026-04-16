@@ -1,18 +1,24 @@
+import os
 from fastapi import FastAPI
 import google.generativeai as genai
-import os
 
 app = FastAPI()
 
-# Configura a IA com a chave da Render
-genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
+# Puxa a chave GOOGLE_API_KEY que configuramos na Render
+api_key = os.getenv("GOOGLE_API_KEY")
+genai.configure(api_key=api_key)
+
+# Modelo configurado corretamente
+model = genai.GenerativeModel('gemini-1.5-flash')
 
 @app.get("/")
 def home():
-    return {"status": "Online", "projeto": "Tecnologia e Psicologia"}
+    return {"status": "Psico-Tech App Online"}
 
 @app.get("/gerar")
 def gerar(pergunta: str):
-  model = genai.GenerativeModel('models/gemini-1.5-flash')  
-    response = model.generate_content(pergunta)
-    return {"resposta": response.text}
+    try:
+        response = model.generate_content(pergunta)
+        return {"resposta": response.text}
+    except Exception as e:
+        return {"erro": str(e)}
