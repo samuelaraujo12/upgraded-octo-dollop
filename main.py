@@ -4,11 +4,13 @@ import google.generativeai as genai
 
 app = FastAPI()
 
-# A chave está protegida por uma única aspa de cada lado e em uma linha só
-api_key = os.getenv("GEMINI_API_KEY")
+api_key = os.getenv("GEMINI_API_KEY", "").strip()
+
+if not api_key:
+    raise ValueError("GEMINI_API_KEY não configurada")
 
 genai.configure(api_key=api_key)
-model = genai.GenerativeModel('gemini-pro')
+model = genai.GenerativeModel("gemini-pro")
 
 @app.get("/")
 def home():
