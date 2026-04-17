@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Psico-Tech IA</title>
+</head>
+<body>
+    <h1>Psico-Tech IA</h1>
+
+    <input id="pergunta" placeholder="Digite sua pergunta" style="width:300px;">
+    <button onclick="enviar()">Enviar</button>
+
+    <p id="resposta"></p>
+
+    <script>
+        async function enviar() {
+            let pergunta = document.getElementById("pergunta").value;
+
+            let res = await fetch(`/gerar?pergunta=${encodeURIComponent(pergunta)}`);
+            let data = await res.json();
+
+            document.getElementById("resposta").innerText = data.resposta || data.erro;
+        }
+    </script>
+</body>
+</html>
