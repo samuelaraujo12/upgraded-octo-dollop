@@ -1,3 +1,4 @@
+
 import os
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
@@ -5,23 +6,25 @@ from openai import OpenAI
 
 app = FastAPI()
 
-# OpenRouter API (CORRETO)
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
     api_key=os.getenv("OPENROUTER_API_KEY"),
 )
 
 @app.get("/")
+@app.head("/")
 def home():
     return {"status": "online", "mensagem": "Psico-Tech rodando"}
 
 @app.get("/gerar")
-def gerar(pergunta: str):
+@app.head("/gerar")
+def gerar(pergunta: str = "ping"):
     try:
         completion = client.chat.completions.create(
             model="google/gemma-4-26b-a4b-it:free",
             messages=[
-                {"role": "user", "content": pergunta}
+                {"role": "system", "content": "Você é um assistente especializado em psicologia e tecnologia."},
+                {"role": "user", "content": pergunta},
             ],
         )
 
@@ -30,7 +33,8 @@ def gerar(pergunta: str):
     except Exception as e:
         return {"erro": str(e)}
 
-# 👉 INTERFACE VISUAL
 @app.get("/ui")
+@app.head("/ui")
 def ui():
-    return FileResponse("index.html")
+    file_path = os.path.join(os.path.dirname(__file__), "index.html")
+    return FileResponse(file_path)
