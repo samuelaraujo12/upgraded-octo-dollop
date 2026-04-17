@@ -4,28 +4,22 @@ from openai import OpenAI
 
 app = FastAPI()
 
-HF_TOKEN = os.getenv("HF_TOKEN", "").strip()
-
-if not HF_TOKEN:
-    raise ValueError("HF_TOKEN não configurado")
-
 client = OpenAI(
-    base_url="https://router.huggingface.co/v1",
-    api_key=HF_TOKEN,
+    base_url="https://openrouter.ai/api/v1",
+    api_key=os.getenv("OPENROUTER_API_KEY"),
 )
 
 @app.get("/")
 def home():
-    return {"status": "Psico-Tech Online", "mensagem": "Rodando com Hugging Face"}
+    return {"status": "online"}
 
 @app.get("/gerar")
 def gerar(pergunta: str):
     try:
         completion = client.chat.completions.create(
-            model="moonshotai/Kimi-K2-Instruct-0905",
+            model="openai/gpt-4o-mini",
             messages=[
-                {"role": "system", "content": "Você é especialista em psicologia e tecnologia."},
-                {"role": "user", "content": pergunta},
+                {"role": "user", "content": pergunta}
             ],
         )
 
