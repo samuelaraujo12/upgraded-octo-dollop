@@ -1,26 +1,35 @@
 import os
 from fastapi import FastAPI
-import google.generativeai as genai
+from openai import OpenAI
 
 app = FastAPI()
 
-api_key = os.getenv("GEMINI_API_KEY", "").strip()
+HF_TOKEN = os.getenv("HF_TOKEN", "").strip()
 
-if not api_key:
-    raise ValueError("GEMINI_API_KEY não configurada")
+if not HF_TOKEN:
+    raise ValueError("HF_TOKEN não configurado")
 
-genai.configure(api_key=api_key)
-
-model = genai.GenerativeModel("gemini-1.5-flash")
+client = OpenAI(
+    base_url="https://router.huggingface.co/v1",
+    api_key=HF_TOKEN,
+)
 
 @app.get("/")
 def home():
-    return {"status": "Psico-Tech Online", "mensagem": "Sistema operando"}
+    return {"status": "Psico-Tech Online", "mensagem": "Rodando com Hugging Face"}
 
 @app.get("/gerar")
 def gerar(pergunta: str):
     try:
-        response = model.generate_content(pergunta)
-        return {"resposta": response.text}
+        completion = client.chat.completions.create(
+            model="moonshotai/Kimi-K2-Instruct-0905",
+            messages=[
+                {"role": "system", "content": "Você é especialista em psicologia e tecnologia."},
+                {"role": "user", "content": pergunta},
+            ],
+        )
+
+        return {"resposta": completion.choices[0].message.content}
+
     except Exception as e:
         return {"erro": str(e)}
