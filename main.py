@@ -1,17 +1,19 @@
 import os
 from fastapi import FastAPI
+from fastapi.responses import FileResponse
 from openai import OpenAI
 
 app = FastAPI()
 
+# OpenRouter API (CORRETO)
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
-    api_key=os.getenv("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"),
+    api_key=os.getenv("OPENROUTER_API_KEY"),
 )
 
 @app.get("/")
 def home():
-    return {"status": "online"}
+    return {"status": "online", "mensagem": "Psico-Tech rodando"}
 
 @app.get("/gerar")
 def gerar(pergunta: str):
@@ -27,3 +29,8 @@ def gerar(pergunta: str):
 
     except Exception as e:
         return {"erro": str(e)}
+
+# 👉 INTERFACE VISUAL
+@app.get("/ui")
+def ui():
+    return FileResponse("index.html")
