@@ -6,9 +6,11 @@ from openai import OpenAI
 
 app = FastAPI()
 
+API_KEY = os.getenv("OPENROUTER_API_KEY")
+
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
-    api_key=os.getenv("OPENROUTER_API_KEY"),
+    api_key=API_KEY,
 )
 
 @app.get("/")
@@ -20,10 +22,17 @@ def home():
 @app.head("/gerar")
 def gerar(pergunta: str = "ping"):
     try:
+        if not API_KEY:
+            return {"erro": "OPENROUTER_API_KEY não configurada na Render"}
+
         completion = client.chat.completions.create(
-            model="google/gemma-4-26b-a4b-it:free",
+            model="openai/gpt-4o-mini",
+            extra_headers={
+                "HTTP-Referer": "https://psico-tech-app.onrender.com",
+                "X-Title": "Psico-Tech IA"
+            },
             messages=[
-                {"role": "system", "content": "Você é um assistente especializado em psicologia e tecnologia."},
+                {"role": "system", "content": "Você é um assistente especializado em psicologia e tecnologia. Responda de forma clara e objetiva."},
                 {"role": "user", "content": pergunta},
             ],
         )
